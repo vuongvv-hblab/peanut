@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
 	"peanut/config"
 	"peanut/domain"
 	"peanut/pkg/response"
@@ -19,7 +20,7 @@ type UserController struct {
 func NewUserController(db *gorm.DB) *UserController {
 	fmt.Println(config.IsDevelopment())
 	return &UserController{
-		Usecase: usecase.NewUserUsecase( repository.NewUserRepo(db)),
+		Usecase: usecase.NewUserUsecase(repository.NewUserRepo(db)),
 	}
 }
 
@@ -32,7 +33,7 @@ func (c *UserController) GetUser(ctx *gin.Context) {
 }
 
 func (c *UserController) CreateUser(ctx *gin.Context) {
-	user := domain.User{}
+	user := domain.CreateUserReq{}
 	if !bindJSON(ctx, &user) {
 		return
 	}
@@ -42,5 +43,5 @@ func (c *UserController) CreateUser(ctx *gin.Context) {
 		return
 	}
 
-	response.OK(ctx, nil)
+	response.WithStatusCode(ctx, http.StatusCreated, nil)
 }

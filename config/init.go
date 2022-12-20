@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 )
@@ -16,4 +17,8 @@ func init() {
 func Setup() {
 	setEnv()
 	setGinMode()
+}
+
+func PrivateKey() []byte {
+	return []byte(os.Getenv("JWT_PRIVATE_KEY"))
 }

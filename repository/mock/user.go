@@ -6,7 +6,7 @@ package mock
 
 import (
 	context "context"
-	domain "peanut/domain"
+	model "peanut/domain/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -36,10 +36,10 @@ func (m *MockUserRepo) EXPECT() *MockUserRepoMockRecorder {
 }
 
 // CreateUser mocks base method.
-func (m *MockUserRepo) CreateUser(ctx context.Context, u domain.User) (*domain.User, error) {
+func (m *MockUserRepo) CreateUser(ctx context.Context, u model.User) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateUser", ctx, u)
-	ret0, _ := ret[0].(*domain.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -51,10 +51,10 @@ func (mr *MockUserRepoMockRecorder) CreateUser(ctx, u interface{}) *gomock.Call 
 }
 
 // GetUser mocks base method.
-func (m *MockUserRepo) GetUser(ctx context.Context, id int) (*domain.User, error) {
+func (m *MockUserRepo) GetUser(ctx context.Context, id int) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUser", ctx, id)
-	ret0, _ := ret[0].(*domain.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -66,10 +66,10 @@ func (mr *MockUserRepoMockRecorder) GetUser(ctx, id interface{}) *gomock.Call {
 }
 
 // GetUsers mocks base method.
-func (m *MockUserRepo) GetUsers(ctx context.Context) ([]domain.User, error) {
+func (m *MockUserRepo) GetUsers(ctx context.Context) ([]model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers", ctx)
-	ret0, _ := ret[0].([]domain.User)
+	ret0, _ := ret[0].([]model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
