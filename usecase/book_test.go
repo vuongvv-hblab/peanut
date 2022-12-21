@@ -9,29 +9,28 @@ import (
 	"peanut/domain"
 )
 
-var _ = Describe("User", func() {
-	var u, createdU domain.User
+var _ = Describe("Books", func() {
+	var u, createdB domain.CreateBookReq
+	userId := 10
 	BeforeEach(func() {
-		u = domain.User{
-			ID:       1,
-			Username: "hung",
-			Email:    "hung@example.com",
+		u = domain.CreateBookReq{
+			Name: "book 1",
 		}
-		createdU = domain.User{}
+		createdB = domain.CreateBookReq{}
 	})
 
 	Describe("API Create", func() {
-		Context("with existed username", func() {
+		Context("with existed book", func() {
 			It("should be error", func() {
 				// TODO: fill in your test in this case
 			})
 		})
-		Context("with new user", func() {
+		Context("with new book", func() {
 			It("should be success", func() {
 				// prepare
-				userRepo.EXPECT().CreateUser(ctx, u).Return(&u, nil)
+				bookRepo.EXPECT().CreateBook(ctx, u, userId).Return(&u, nil)
 				// do
-				err := userUc.CreateUser(ctx, u)
+				err := bookUc.CreateBook(ctx, u, userId)
 				// check
 				Expect(err).To(BeNil())
 			})
@@ -39,10 +38,10 @@ var _ = Describe("User", func() {
 		Context("with database error response", func() {
 			It("should be err", func() {
 				// prepare
-				userRepo.EXPECT().CreateUser(ctx, u).
+				bookRepo.EXPECT().CreateBook(ctx, u, userId).
 					Return(nil, fmt.Errorf("database error"))
 				// do
-				err := userUc.CreateUser(ctx, u)
+				err := bookUc.CreateBook(ctx, u, userId)
 				// check
 				Expect(err).NotTo(BeNil())
 			})
@@ -53,7 +52,7 @@ var _ = Describe("User", func() {
 		Context("with existed id", func() {
 			It("should be return user", func() {
 				// Do something
-				Expect(u).NotTo(Equal(createdU))
+				Expect(u).NotTo(Equal(createdB))
 			})
 		})
 	})

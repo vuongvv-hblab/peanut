@@ -16,13 +16,12 @@ import (
 )
 
 var ctx context.Context
-var db *gorm.DB
-var userRepo *mock.MockUserRepo
-var userUc usecase.UserUsecase
+var bookRepo *mock.MockBookRepo
+var bookUc usecase.BookUsecase
 
-func TestUsecase(t *testing.T) {
+func TestBooks(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Usecase Suite")
+	RunSpecs(t, "Books Usecase Suite")
 }
 
 var _ = BeforeSuite(func() {
@@ -38,6 +37,6 @@ var _ = BeforeSuite(func() {
 
 	ctrl := gomock.NewController(GinkgoT())
 	defer ctrl.Finish()
-	userRepo = mock.NewMockUserRepo(ctrl)
-	userUc = usecase.NewUserUsecase(userRepo)
+	bookRepo = mock.NewMockBookRepo(ctrl)
+	bookUc = usecase.NewBookUsecase(bookRepo)
 })

@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"gorm.io/gorm"
 	"peanut/domain"
 	"peanut/repository"
 )
@@ -19,9 +18,9 @@ type bookUsecase struct {
 	BookRepo repository.BookRepo
 }
 
-func NewBookUsecase(db *gorm.DB) BookUsecase {
+func NewBookUsecase(r repository.BookRepo) BookUsecase {
 	return &bookUsecase{
-		BookRepo: repository.NewBookRepo(db),
+		BookRepo: r,
 	}
 }
 func (uc *bookUsecase) GetBooks(ctx context.Context, userId int) (books []domain.Book, err error) {
