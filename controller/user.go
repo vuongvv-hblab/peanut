@@ -28,6 +28,18 @@ func (c *UserController) GetUsers(ctx *gin.Context) {
 
 }
 
+// GetUser godoc
+// @Summary      Create an user
+// @Description  Create an user
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "User ID"
+// @Success      200  {object}  domain.User
+// @Failure      400  {object}  domain.ErrorResponse
+// @Failure      404  {object}  domain.ErrorResponse
+// @Failure      500  {object}  domain.ErrorResponse
+// @Router       /users/{id} [get]
 func (c *UserController) GetUser(ctx *gin.Context) {
 
 }
