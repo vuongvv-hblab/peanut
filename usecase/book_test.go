@@ -10,27 +10,24 @@ import (
 )
 
 var _ = Describe("Books", func() {
-	var u, createdB domain.CreateBookReq
-	userId := 10
+	var b domain.CreateBookReq
+	var book domain.Book
+	userId, bookId := 10, 6
+
 	BeforeEach(func() {
-		u = domain.CreateBookReq{
+		b = domain.CreateBookReq{
 			Name: "book 1",
 		}
-		createdB = domain.CreateBookReq{}
+		//createdB = domain.CreateBookReq{}
 	})
 
 	Describe("API Create", func() {
-		Context("with existed book", func() {
-			It("should be error", func() {
-				// TODO: fill in your test in this case
-			})
-		})
 		Context("with new book", func() {
 			It("should be success", func() {
 				// prepare
-				bookRepo.EXPECT().CreateBook(ctx, u, userId).Return(&u, nil)
+				bookRepo.EXPECT().CreateBook(ctx, b, userId).Return(&book, nil)
 				// do
-				err := bookUc.CreateBook(ctx, u, userId)
+				err := bookUc.CreateBook(ctx, b, userId)
 				// check
 				Expect(err).To(BeNil())
 			})
@@ -38,21 +35,57 @@ var _ = Describe("Books", func() {
 		Context("with database error response", func() {
 			It("should be err", func() {
 				// prepare
-				bookRepo.EXPECT().CreateBook(ctx, u, userId).
+				bookRepo.EXPECT().CreateBook(ctx, b, userId).
 					Return(nil, fmt.Errorf("database error"))
 				// do
-				err := bookUc.CreateBook(ctx, u, userId)
+				err := bookUc.CreateBook(ctx, b, userId)
 				// check
 				Expect(err).NotTo(BeNil())
 			})
 		})
 	})
-
-	Describe("API Get user", func() {
+	Describe("API edit", func() {
+		Context("with existed book", func() {
+			It("should be success", func() {
+				// prepare
+				bookRepo.EXPECT().EditBook(ctx, b, userId, bookId).Return(&book, nil)
+				// do
+				err := bookUc.EditBook(ctx, b, userId, bookId)
+				// check
+				Expect(err).To(BeNil())
+			})
+		})
+		Context("with database error response", func() {
+			It("should be err", func() {
+				// prepare
+				bookRepo.EXPECT().EditBook(ctx, b, userId, bookId).
+					Return(nil, fmt.Errorf("database error"))
+				// do
+				err := bookUc.EditBook(ctx, b, userId, bookId)
+				// check
+				Expect(err).NotTo(BeNil())
+			})
+		})
+	})
+	Describe("API Get", func() {
 		Context("with existed id", func() {
-			It("should be return user", func() {
+			It("should be return book", func() {
+				bookRepo.EXPECT().GetBook(ctx, userId, bookId).Return(&book, nil)
+
+				_, err := bookUc.GetBook(ctx, userId, bookId)
 				// Do something
-				Expect(u).NotTo(Equal(createdB))
+				Expect(err).To(BeNil())
+			})
+		})
+	})
+	Describe("API delete", func() {
+		Context("with existed id", func() {
+			It("should be return book", func() {
+				bookRepo.EXPECT().DeleteBook(ctx, userId, bookId).Return(&book, nil)
+
+				err := bookUc.DeleteBook(ctx, userId, bookId)
+				// Do something
+				Expect(err).To(BeNil())
 			})
 		})
 	})

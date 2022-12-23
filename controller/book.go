@@ -8,6 +8,7 @@ import (
 	"peanut/domain"
 	"peanut/pkg/jwt"
 	"peanut/pkg/response"
+	"peanut/repository"
 	"peanut/usecase"
 	"strconv"
 )
@@ -18,7 +19,7 @@ type BookController struct {
 
 func NewBookController(db *gorm.DB) *BookController {
 	return &BookController{
-		Usecase: usecase.NewBookUsecase(db),
+		Usecase: usecase.NewBookUsecase(repository.NewBookRepo(db)),
 	}
 }
 func (c *BookController) GetBooks(ctx *gin.Context) {
