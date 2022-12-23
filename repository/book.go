@@ -58,6 +58,10 @@ func (r *bookRepo) EditBook(ctx context.Context, u domain.CreateBookReq, userId 
 		Name: u.Name,
 	}
 	result := r.DB.Where("user_id= ? and id=?", userId, id).Updates(book)
+	if book.ID == 0 {
+		err = fmt.Errorf("[repo.Book.EditBook] failed: not exist book")
+		return nil, err
+	}
 	if result.Error != nil {
 		err = fmt.Errorf("[repo.Book.EditBook] failed: %w", result.Error)
 		return nil, err

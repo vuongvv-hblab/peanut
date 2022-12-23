@@ -6,7 +6,7 @@ package mock
 
 import (
 	context "context"
-	model "peanut/domain/model"
+	domain "peanut/domain"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -36,10 +36,10 @@ func (m *MockUserRepo) EXPECT() *MockUserRepoMockRecorder {
 }
 
 // CreateUser mocks base method.
-func (m *MockUserRepo) CreateUser(ctx context.Context, u model.User) (*model.User, error) {
+func (m *MockUserRepo) CreateUser(ctx context.Context, u domain.CreateUserReq) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateUser", ctx, u)
-	ret0, _ := ret[0].(*model.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -51,10 +51,10 @@ func (mr *MockUserRepoMockRecorder) CreateUser(ctx, u interface{}) *gomock.Call 
 }
 
 // GetUser mocks base method.
-func (m *MockUserRepo) GetUser(ctx context.Context, id int) (*model.User, error) {
+func (m *MockUserRepo) GetUser(ctx context.Context, id int) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUser", ctx, id)
-	ret0, _ := ret[0].(*model.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -65,11 +65,26 @@ func (mr *MockUserRepoMockRecorder) GetUser(ctx, id interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockUserRepo)(nil).GetUser), ctx, id)
 }
 
+// GetUserByGmail mocks base method.
+func (m *MockUserRepo) GetUserByGmail(ctx context.Context, email string) (*domain.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserByGmail", ctx, email)
+	ret0, _ := ret[0].(*domain.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserByGmail indicates an expected call of GetUserByGmail.
+func (mr *MockUserRepoMockRecorder) GetUserByGmail(ctx, email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByGmail", reflect.TypeOf((*MockUserRepo)(nil).GetUserByGmail), ctx, email)
+}
+
 // GetUsers mocks base method.
-func (m *MockUserRepo) GetUsers(ctx context.Context) ([]model.User, error) {
+func (m *MockUserRepo) GetUsers(ctx context.Context) ([]domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers", ctx)
-	ret0, _ := ret[0].([]model.User)
+	ret0, _ := ret[0].([]domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
