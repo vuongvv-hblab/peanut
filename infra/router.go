@@ -2,6 +2,8 @@ package infra
 
 import (
 	"net/http"
+
+	"peanut/config"
 	"peanut/controller"
 	"time"
 
@@ -10,6 +12,11 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+
+	_ "peanut/docs"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Server struct {
@@ -72,6 +79,10 @@ func SetupServer(s *gorm.DB) Server {
 	r.GET("api/health", func(c *gin.Context) {
 		c.Status(http.StatusOK)
 	})
+
+	if config.IsDevelopment() {
+		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	return Server{
 		Store:  s,
