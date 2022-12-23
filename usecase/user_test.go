@@ -9,7 +9,7 @@ import (
 )
 
 var _ = Describe("User", func() {
-	var u, createdB domain.CreateUserReq
+	var u domain.CreateUserReq
 	var user domain.User
 	BeforeEach(func() {
 		u = domain.CreateUserReq{
@@ -18,7 +18,6 @@ var _ = Describe("User", func() {
 			Password: "12345678",
 		}
 
-		createdB = domain.CreateUserReq{}
 	})
 
 	Describe("API Create", func() {
@@ -47,15 +46,6 @@ var _ = Describe("User", func() {
 				err := userUc.CreateUser(ctx, u)
 				// check
 				Expect(err).NotTo(BeNil())
-			})
-		})
-	})
-
-	Describe("API Get user", func() {
-		Context("with existed id", func() {
-			It("should be return user", func() {
-				// Do something
-				Expect(u).NotTo(Equal(createdB))
 			})
 		})
 	})

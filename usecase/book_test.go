@@ -12,7 +12,7 @@ import (
 var _ = Describe("Books", func() {
 	var b domain.CreateBookReq
 	var book domain.Book
-	userId, bookId := 10, 6
+	userId, bookId := 10, 3
 
 	BeforeEach(func() {
 		b = domain.CreateBookReq{
