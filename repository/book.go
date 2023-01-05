@@ -57,11 +57,13 @@ func (r *bookRepo) EditBook(ctx context.Context, u domain.CreateBookReq, userId 
 	book = &domain.Book{
 		Name: u.Name,
 	}
-	result := r.DB.Where("user_id= ? and id=?", userId, id).Updates(book)
-	if book.ID == 0 {
-		err = fmt.Errorf("[repo.Book.EditBook] failed: not exist book")
+	data := r.DB.Where("user_id= ? and id=?", userId, id).First(book)
+	if data.Error != nil {
+		err = fmt.Errorf("[repo.Book.DeleteBook] failed: %w", data.Error)
 		return nil, err
 	}
+	result := r.DB.Where("user_id= ? and id=?", userId, id).Updates(book)
+
 	if result.Error != nil {
 		err = fmt.Errorf("[repo.Book.EditBook] failed: %w", result.Error)
 		return nil, err
@@ -71,9 +73,8 @@ func (r *bookRepo) EditBook(ctx context.Context, u domain.CreateBookReq, userId 
 func (r *bookRepo) DeleteBook(ctx context.Context, userId int, id int) (book *domain.Book, err error) {
 	book = &domain.Book{}
 	result := r.DB.Where("user_id= ? and id=?", userId, id).Delete(book)
-
 	if result.Error != nil {
-		err = fmt.Errorf("[repo.Book.GetBook] failed: %w", result.Error)
+		err = fmt.Errorf("[repo.Book.DeleteBook] failed: %w", result.Error)
 		return nil, err
 	}
 	return

@@ -24,17 +24,17 @@ func NewBookController(db *gorm.DB) *BookController {
 }
 
 // GetBooks godoc
-// @Summary      Get books
-// @Description  Get books
-// @Tags         book
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  []domain.Book
-// @Failure      400  {object}  domain.ErrorResponse
-// @Failure      404  {object}  domain.ErrorResponse
-// @Failure      500  {object}  domain.ErrorResponse
-// @Security Bearer
-// @Router       /api/v1/books [get]
+//	@Summary		Get books
+//	@Description	Get books
+//	@Tags			book
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	[]domain.Book
+//	@Failure		400	{object}	domain.ErrorResponse
+//	@Failure		404	{object}	domain.ErrorResponse
+//	@Failure		500	{object}	domain.ErrorResponse
+//	@Security		Bearer
+//	@Router			/api/v1/books [get]
 func (c *BookController) GetBooks(ctx *gin.Context) {
 	token, _ := jwt.GetToken(ctx)
 	claims := token.Claims.(jwt2.MapClaims)
@@ -50,18 +50,18 @@ func (c *BookController) GetBooks(ctx *gin.Context) {
 }
 
 // GetBook godoc
-// @Summary      Get book
-// @Description  Get book
-// @Tags         book
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "Book ID"
-// @Success      200  {object}  domain.Book
-// @Failure      400  {object}  domain.ErrorResponse
-// @Failure      404  {object}  domain.ErrorResponse
-// @Failure      500  {object}  domain.ErrorResponse
-// @Security Bearer
-// @Router       /api/v1/books/{id} [get]
+//	@Summary		Get book
+//	@Description	Get book
+//	@Tags			book
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"Book ID"
+//	@Success		200	{object}	domain.Book
+//	@Failure		400	{object}	domain.ErrorResponse
+//	@Failure		404	{object}	domain.ErrorResponse
+//	@Failure		500	{object}	domain.ErrorResponse
+//	@Security		Bearer
+//	@Router			/api/v1/books/{id} [get]
 func (c *BookController) GetBook(ctx *gin.Context) {
 	token, _ := jwt.GetToken(ctx)
 	claims := token.Claims.(jwt2.MapClaims)
@@ -82,18 +82,18 @@ func (c *BookController) GetBook(ctx *gin.Context) {
 }
 
 // CreateBook godoc
-// @Summary      Create an book
-// @Description  Create an book
-// @Tags         book
-// @Accept       json
-// @Produce      json
-// @Param        body  body object  true  "Body"
-// @Success      200  {object}  domain.Book
-// @Failure      400  {object}  domain.ErrorResponse
-// @Failure      404  {object}  domain.ErrorResponse
-// @Failure      500  {object}  domain.ErrorResponse
-// @Security Bearer
-// @Router       /api/v1/books [post]
+//	@Summary		Create an book
+//	@Description	Create an book
+//	@Tags			book
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		object	true	"Body"
+//	@Success		200		{object}	domain.Book
+//	@Failure		400		{object}	domain.ErrorResponse
+//	@Failure		404		{object}	domain.ErrorResponse
+//	@Failure		500		{object}	domain.ErrorResponse
+//	@Security		Bearer
+//	@Router			/api/v1/books [post]
 func (c *BookController) CreateBook(ctx *gin.Context) {
 	token, _ := jwt.GetToken(ctx)
 	claims := token.Claims.(jwt2.MapClaims)
@@ -113,19 +113,19 @@ func (c *BookController) CreateBook(ctx *gin.Context) {
 }
 
 // EditBook godoc
-// @Summary      Edit an book
-// @Description  Edit an book
-// @Tags         book
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "Book ID"
-// @Param        body  body object  true  "Body"
-// @Success      200  {object}  domain.Book
-// @Failure      400  {object}  domain.ErrorResponse
-// @Failure      404  {object}  domain.ErrorResponse
-// @Failure      500  {object}  domain.ErrorResponse
-// @Security Bearer
-// @Router       /api/v1/books/{id} [put]
+//	@Summary		Edit an book
+//	@Description	Edit an book
+//	@Tags			book
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int		true	"Book ID"
+//	@Param			body	body		object	true	"Body"
+//	@Success		200		{object}	domain.Book
+//	@Failure		400		{object}	domain.ErrorResponse
+//	@Failure		404		{object}	domain.ErrorResponse
+//	@Failure		500		{object}	domain.ErrorResponse
+//	@Security		Bearer
+//	@Router			/api/v1/books/{id} [put]
 func (c *BookController) EditBook(ctx *gin.Context) {
 	token, _ := jwt.GetToken(ctx)
 	claims := token.Claims.(jwt2.MapClaims)
@@ -149,18 +149,18 @@ func (c *BookController) EditBook(ctx *gin.Context) {
 }
 
 // DeleteBook godoc
-// @Summary      Delete an book
-// @Description  Delete an book
-// @Tags         book
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "Book ID"
-// @Success      200  {object}  domain.Book
-// @Failure      400  {object}  domain.ErrorResponse
-// @Failure      404  {object}  domain.ErrorResponse
-// @Failure      500  {object}  domain.ErrorResponse
-// @Security Bearer
-// @Router       /api/v1/books/{id} [Delete]
+//	@Summary		Delete an book
+//	@Description	Delete an book
+//	@Tags			book
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"Book ID"
+//	@Success		200	{object}	domain.Book
+//	@Failure		400	{object}	domain.ErrorResponse
+//	@Failure		404	{object}	domain.ErrorResponse
+//	@Failure		500	{object}	domain.ErrorResponse
+//	@Security		Bearer
+//	@Router			/api/v1/books/{id} [Delete]
 func (c *BookController) DeleteBook(ctx *gin.Context) {
 	token, _ := jwt.GetToken(ctx)
 	claims := token.Claims.(jwt2.MapClaims)
