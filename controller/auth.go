@@ -19,6 +19,18 @@ func NewAuthController(db *gorm.DB) *AuthController {
 	}
 }
 
+// Login godoc
+//	@Summary		Create an user
+//	@Description	Create an user
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body	object	true	"Body"
+//	@Created		200  {object}  domain.Auth
+//	@Failure		400	{object}	domain.ErrorResponse
+//	@Failure		404	{object}	domain.ErrorResponse
+//	@Failure		500	{object}	domain.ErrorResponse
+//	@Router			/login [post]
 func (c *AuthController) Login(ctx *gin.Context) {
 	user := domain.Auth{}
 
