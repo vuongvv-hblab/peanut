@@ -29,7 +29,7 @@ func NewContentController(db *gorm.DB) *ContentController {
 //
 //	@Summary		Get contents
 //	@Description	Get contents
-//	@Tags			book
+//	@Tags			content
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	[]domain.Content
@@ -37,7 +37,7 @@ func NewContentController(db *gorm.DB) *ContentController {
 //	@Failure		404	{object}	domain.ErrorResponse
 //	@Failure		500	{object}	domain.ErrorResponse
 //	@Security		Bearer
-//	@Router			/api/v1/books [get]
+//	@Router			/api/v1/contents [get]
 func (c *ContentController) GetContents(ctx *gin.Context) {
 	token, _ := jwt.GetToken(ctx)
 	claims := token.Claims.(jwt2.MapClaims)
@@ -59,12 +59,21 @@ func (c *ContentController) GetContents(ctx *gin.Context) {
 //	@Tags			content
 //	@Accept			json
 //	@Produce		json
-//	@Param			body	body	object	true	"Body"
+//	@Param			name		formData	string	true	"name"
+//	@Param			thumbnail	formData	file	true	"thumbnail"
+//	@Param			content		formData	file	true	"content"
+//	@Param			description	formData	string	true	"description"
+//	@Param			playtime	formData	string	true	"playtime"
+//	@Param			resolution	formData	string	true	"resolution"
+//	@Param			aspect		formData	string	true	"aspect"
+//	@Param			tag			formData	bool	true	"tag"
+//	@Param			category	formData	string	true	"category"
 //	@Created		201  {object}  domain.Content
 //	@Failure		400	{object}	domain.ErrorResponse
 //	@Failure		404	{object}	domain.ErrorResponse
 //	@Failure		500	{object}	domain.ErrorResponse
-//	@Router			/api/v1/users [post]
+//	@Security		Bearer
+//	@Router			/api/v1/contents [post]
 func (c *ContentController) CreateContent(ctx *gin.Context) {
 	token, _ := jwt.GetToken(ctx)
 	claims := token.Claims.(jwt2.MapClaims)
