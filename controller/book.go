@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	jwt2 "github.com/golang-jwt/jwt/v4"
 	"gorm.io/gorm"
@@ -24,6 +25,7 @@ func NewBookController(db *gorm.DB) *BookController {
 }
 
 // GetBooks godoc
+//
 //	@Summary		Get books
 //	@Description	Get books
 //	@Tags			book
@@ -50,6 +52,7 @@ func (c *BookController) GetBooks(ctx *gin.Context) {
 }
 
 // GetBook godoc
+//
 //	@Summary		Get book
 //	@Description	Get book
 //	@Tags			book
@@ -82,6 +85,7 @@ func (c *BookController) GetBook(ctx *gin.Context) {
 }
 
 // CreateBook godoc
+//
 //	@Summary		Create an book
 //	@Description	Create an book
 //	@Tags			book
@@ -113,6 +117,7 @@ func (c *BookController) CreateBook(ctx *gin.Context) {
 }
 
 // EditBook godoc
+//
 //	@Summary		Edit an book
 //	@Description	Edit an book
 //	@Tags			book
@@ -136,6 +141,7 @@ func (c *BookController) EditBook(ctx *gin.Context) {
 		return
 	}
 	book := domain.CreateBookReq{}
+	fmt.Println(&book.Name)
 	if !bindJSON(ctx, &book) {
 		return
 	}
@@ -149,6 +155,7 @@ func (c *BookController) EditBook(ctx *gin.Context) {
 }
 
 // DeleteBook godoc
+//
 //	@Summary		Delete an book
 //	@Description	Delete an book
 //	@Tags			book

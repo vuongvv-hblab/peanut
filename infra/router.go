@@ -73,6 +73,12 @@ func SetupServer(s *gorm.DB) Server {
 			books.PUT("/:id", bookCtrl.EditBook)
 			books.DELETE("/:id", bookCtrl.DeleteBook)
 		}
+		contentCtrl := controller.NewContentController(s)
+		contents := v1.Group("/contents").Use(middleware.JWTAuthMiddleware())
+		{
+			contents.GET("", contentCtrl.GetContents)
+			contents.POST("", contentCtrl.CreateContent)
+		}
 	}
 
 	// health check

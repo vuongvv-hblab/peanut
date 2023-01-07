@@ -39,7 +39,21 @@ func bindQueryParams(ctx *gin.Context, obj interface{}) bool {
 
 	return false
 }
+func bindForm(ctx *gin.Context, obj interface{}) bool {
+	err := ctx.ShouldBind(obj)
+	if err == nil {
+		return true
+	}
+	_, ok := err.(validator.ValidationErrors)
+	if ok {
+		err = apierrors.New(apierrors.InvalidRequest, err)
+	} else {
+		err = apierrors.New(apierrors.BadParams, err)
+	}
+	ctx.Error(err).SetType(gin.ErrorTypeBind)
 
+	return false
+}
 func checkError(ctx *gin.Context, err error) bool {
 	if err == nil {
 		return false
