@@ -21,6 +21,8 @@ var bookRepo *mock.MockBookRepo
 var bookUc usecase.BookUsecase
 var userRepo *mock.MockUserRepo
 var userUc usecase.UserUsecase
+var contentRepo *mock.MockContentRepo
+var contentUc usecase.ContentUsecase
 
 func TestBooks(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -46,4 +48,7 @@ var _ = BeforeSuite(func() {
 
 	bookRepo = mock.NewMockBookRepo(ctrl)
 	bookUc = usecase.NewBookUsecase(bookRepo)
+
+	contentRepo = mock.NewMockContentRepo(ctrl)
+	contentUc = usecase.NewContentUsecase(contentRepo)
 })

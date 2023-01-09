@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"github.com/google/uuid"
+	"path/filepath"
 	"peanut/pkg/apierrors"
 
 	"github.com/gin-gonic/gin"
@@ -60,4 +62,17 @@ func checkError(ctx *gin.Context, err error) bool {
 	}
 	_ = ctx.Error(err).SetType(gin.ErrorTypePublic)
 	return true
+}
+func saveUploadedFile(ctx *gin.Context, name string, dir string) (path string, err error) {
+	// Save uploaded file
+	file, _ := ctx.FormFile(name)
+	dst := uuid.New().String() + filepath.Ext(file.Filename)
+	contentPath := dir + dst
+	err = ctx.SaveUploadedFile(file, contentPath)
+	if err != nil {
+		err = apierrors.NewErrorf(apierrors.InternalError, err.Error())
+		return
+	}
+
+	return
 }

@@ -83,8 +83,10 @@ func (c *ContentController) CreateContent(ctx *gin.Context) {
 	if !bindForm(ctx, &content) {
 		return
 	}
-	fmt.Println(&content.Name)
-	err := c.Usecase.CreateContent(ctx, content, userId)
+	contentPath, _ := saveUploadedFile(ctx, "content", config.ContentPath())
+	thumbnailPath, _ := saveUploadedFile(ctx, "thumbnail", config.ThumbnailPath())
+
+	err := c.Usecase.CreateContent(ctx, content, userId, contentPath, thumbnailPath)
 	if checkError(ctx, err) {
 		return
 	}

@@ -2,16 +2,15 @@ package usecase
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
-	"path/filepath"
 	"peanut/domain"
+	"peanut/pkg/apierrors"
 	"peanut/repository"
 	"time"
 )
 
 type ContentUsecase interface {
 	GetContents(ctx context.Context, userId int) ([]domain.Content, error)
-	CreateContent(ctx *gin.Context, c domain.CreateContentReq, userId int) error
+	CreateContent(ctx context.Context, c domain.CreateContentReq, userId int, contentPath string, thumbnailPath string) error
 }
 
 type contentUsecase struct {
@@ -33,26 +32,33 @@ func (cc *contentUsecase) GetContents(ctx context.Context, userId int) (contents
 	return contents, nil
 }
 
-func (cc *contentUsecase) CreateContent(ctx *gin.Context, c domain.CreateContentReq, userId int) (err error) {
-	// Save uploaded file
-	file, _ := ctx.FormFile("content")
-	dst := time.Now().Format("20060102150405") + filepath.Ext(file.Filename)
-	contentPath := "public/content/" + dst
-	err = ctx.SaveUploadedFile(file, contentPath)
-	if err != nil {
-		return err
+func (cc *contentUsecase) CreateContent(ctx context.Context, c domain.CreateContentReq, userId int, contentPath string, thumbnailPath string) (err error) {
+	//var maxBytes int64 = 1024 * 1024 * 5 // 5MB
+	//
+	//var w http.ResponseWriter = ctx.Writer
+	//ctx.Request.Body = http.MaxBytesReader(w, ctx.Request.Body, maxBytes)
+	//if err := ctx.Request.ParseMultipartForm(maxBytes); err != nil {
+	//	http.Error(w, "The uploaded file is too big. Please choose an file that's less than 1MB in size", http.StatusBadRequest)
+	//	return
+	//}
+	date, errDate := time.Parse("2006-01-02 15:04:05", c.Playtime)
+	if errDate != nil {
+		err = apierrors.NewErrorf(apierrors.InternalError, errDate.Error())
+		return
 	}
-
-	// Save upload thumbnail
-	thumbnail, _ := ctx.FormFile("thumbnail")
-	thumbnailDts := time.Now().Format("20060102150405") + filepath.Ext(thumbnail.Filename)
-	thumbnailPath := "public/thumbnail/" + thumbnailDts
-	err = ctx.SaveUploadedFile(file, thumbnailPath)
-	if err != nil {
-		return err
+	content := domain.Content{
+		Name:        c.Name,
+		Thumbnail:   thumbnailPath,
+		Content:     contentPath,
+		Description: c.Description,
+		Playtime:    date,
+		Resolution:  c.Resolution,
+		Aspect:      c.Aspect,
+		Tag:         c.Tag,
+		Category:    c.Category,
+		UserId:      userId,
 	}
-
-	_, err = cc.ContentRepo.CreateContent(ctx, c, userId, thumbnailPath, contentPath)
+	_, err = cc.ContentRepo.CreateContent(content)
 	if err != nil {
 		return err
 	}

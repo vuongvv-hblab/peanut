@@ -4,6 +4,7 @@ import (
 	"fmt"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"peanut/pkg/crypto"
 
 	"peanut/domain"
 )
@@ -12,10 +13,11 @@ var _ = Describe("User", func() {
 	var u domain.CreateUserReq
 	var user domain.User
 	BeforeEach(func() {
+		p := crypto.HashString("12345678")
 		u = domain.CreateUserReq{
 			Username: "vuong",
 			Email:    "vuong@example.com",
-			Password: "12345678",
+			Password: p,
 		}
 
 	})
