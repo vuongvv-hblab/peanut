@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	jwt2 "github.com/golang-jwt/jwt/v4"
+	"peanut/pkg/apierrors"
+
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"net/http"
 	"peanut/config"
@@ -81,6 +84,27 @@ func (c *ContentController) CreateContent(ctx *gin.Context) {
 	userId := int(claims["id"].(float64))
 	content := domain.CreateContentReq{}
 	if !bindForm(ctx, &content) {
+		return
+	}
+	if !CheckMaxSizeUpload(int(content.Thumbnail.Size)) {
+		err := apierrors.New(apierrors.BadParams, errors.New("file size is too big!"))
+		ctx.Error(err).SetType(gin.ErrorTypeBind)
+		return
+	}
+	if !CheckMaxSizeUpload(int(content.Content.Size)) {
+		err := apierrors.New(apierrors.BadParams, errors.New("file size is too big!"))
+		ctx.Error(err).SetType(gin.ErrorTypeBind)
+		return
+	}
+	extensions := []string{".jpeg", ".png", ".jpg"}
+	if !CheckExtensionAvailable(ctx, "content", extensions) {
+		err := apierrors.New(apierrors.BadParams, errors.New("file type not allow"))
+		ctx.Error(err).SetType(gin.ErrorTypeBind)
+		return
+	}
+	if !CheckExtensionAvailable(ctx, "thumbnail", extensions) {
+		err := apierrors.New(apierrors.BadParams, errors.New("file type not allow"))
+		ctx.Error(err).SetType(gin.ErrorTypeBind)
 		return
 	}
 	contentPath, _ := saveUploadedFile(ctx, "content", config.ContentPath())

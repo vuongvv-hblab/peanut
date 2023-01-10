@@ -1,12 +1,15 @@
 package controller
 
 import (
-	"github.com/google/uuid"
-	"path/filepath"
-	"peanut/pkg/apierrors"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/google/uuid"
+	"os"
+	"path/filepath"
+	"peanut/pkg/apierrors"
+	"peanut/pkg/arrays"
+	"strconv"
+	"strings"
 )
 
 func bindJSON(ctx *gin.Context, obj interface{}) bool {
@@ -75,4 +78,16 @@ func saveUploadedFile(ctx *gin.Context, name string, dir string) (path string, e
 	}
 
 	return
+}
+func CheckMaxSizeUpload(size int) bool {
+	maxSize, err := strconv.Atoi(os.Getenv("MAX_SIZE_UPLOAD"))
+	if err != nil {
+		return false
+	}
+	return !(size > maxSize)
+}
+
+func CheckExtensionAvailable(ctx *gin.Context, name string, listExt []string) bool {
+	file, _ := ctx.FormFile(name)
+	return arrays.Contains(listExt, strings.ToLower(filepath.Ext(file.Filename)))
 }
