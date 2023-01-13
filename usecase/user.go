@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"peanut/domain"
-	"peanut/pkg/crypto"
 	"peanut/repository"
 )
 
@@ -32,8 +31,8 @@ func (uc *userUsecase) GetUser(ctx context.Context, id int) (user *domain.User, 
 }
 
 func (uc *userUsecase) CreateUser(ctx context.Context, u domain.CreateUserReq) (err error) {
-	hash := crypto.HashString(u.Password)
-	u.Password = hash
+	//hash := crypto.HashString(u.Password)
+	//u.Password = hash
 	_, err = uc.UserRepo.CreateUser(ctx, u)
 	if err != nil {
 		return err

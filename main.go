@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"peanut/config"
+	"peanut/domain"
 	"peanut/infra"
 	"peanut/pkg/i18n"
 
@@ -22,10 +23,10 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@host						localhost:8080
-//	@securityDefinitions.apikey	Bearer
-//	@in							header
-//	@name						Authorization
+// @host						localhost:8080
+// @securityDefinitions.apikey	Bearer
+// @in							header
+// @name						Authorization
 func main() {
 	fmt.Println("---- Hello world! ----")
 
@@ -41,6 +42,7 @@ func main() {
 
 func dbConnect() *gorm.DB {
 	db, err := infra.PostgresOpen()
+	db.AutoMigrate(&domain.Content{})
 	if err != nil {
 		log.Fatal("[main] DB connect error: ", err)
 	}

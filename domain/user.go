@@ -18,3 +18,19 @@ type Book struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+type Content struct {
+	ID          uint `gorm:"primaryKey"`
+	Name        string
+	Thumbnail   string
+	Content     string
+	Description string
+	Playtime    time.Time
+	Resolution  string
+	Aspect      string
+	Tag         bool
+	Category    string
+	UserId      int `gorm:"column:user_id"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
