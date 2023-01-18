@@ -8,7 +8,6 @@ import (
 
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
-	"net/http"
 	"peanut/config"
 	"peanut/domain"
 	"peanut/pkg/jwt"
@@ -78,10 +77,10 @@ func (c *ContentController) GetContents(ctx *gin.Context) {
 //	@Security		Bearer
 //	@Router			/api/v1/contents [post]
 func (c *ContentController) CreateContent(ctx *gin.Context) {
-	token, _ := jwt.GetToken(ctx)
-	claims := token.Claims.(jwt2.MapClaims)
-
-	userId := int(claims["id"].(float64))
+	//token, _ := jwt.GetToken(ctx)
+	//claims := token.Claims.(jwt2.MapClaims)
+	//
+	//userId := int(claims["id"].(float64))
 	content := domain.CreateContentReq{}
 	if !bindForm(ctx, &content) {
 		return
@@ -107,13 +106,18 @@ func (c *ContentController) CreateContent(ctx *gin.Context) {
 		ctx.Error(err).SetType(gin.ErrorTypeBind)
 		return
 	}
-	contentPath, _ := saveUploadedFile(ctx, "content", config.ContentPath())
-	thumbnailPath, _ := saveUploadedFile(ctx, "thumbnail", config.ThumbnailPath())
+	// Upload file local
+	//contentPath, _ := saveUploadedFile(ctx, "content", config.ContentPath())
+	//thumbnailPath, _ := saveUploadedFile(ctx, "thumbnail", config.ThumbnailPath())
 
-	err := c.Usecase.CreateContent(ctx, content, userId, contentPath, thumbnailPath)
-	if checkError(ctx, err) {
-		return
-	}
-
-	response.WithStatusCode(ctx, http.StatusCreated, nil)
+	// Upload file google storage
+	contentPath, _ := saveUploadedFileGCS(ctx, "content", config.ContentPath())
+	thumbnailPath, _ := saveUploadedFileGCS(ctx, "thumbnail", config.ThumbnailPath())
+	fmt.Println(contentPath, thumbnailPath)
+	//err := c.Usecase.CreateContent(ctx, content, userId, contentPath, thumbnailPath)
+	//if checkError(ctx, err) {
+	//	return
+	//}
+	//
+	//response.WithStatusCode(ctx, http.StatusCreated, nil)
 }
