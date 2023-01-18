@@ -4,3 +4,4 @@ tmp
 /.idea
 /public/content/*
 /public/thumbnail/*
+.env
