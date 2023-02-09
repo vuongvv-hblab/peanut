@@ -107,8 +107,13 @@ func (c *ContentController) CreateContent(ctx *gin.Context) {
 		ctx.Error(err).SetType(gin.ErrorTypeBind)
 		return
 	}
-	contentPath, _ := saveUploadedFile(ctx, "content", config.ContentPath())
-	thumbnailPath, _ := saveUploadedFile(ctx, "thumbnail", config.ThumbnailPath())
+	// Upload file local
+	//contentPath, _ := saveUploadedFile(ctx, "content", config.ContentPath())
+	//thumbnailPath, _ := saveUploadedFile(ctx, "thumbnail", config.ThumbnailPath())
+
+	// Upload file google storage
+	contentPath, _ := saveUploadedFileGCS(ctx, "content", config.ContentPath())
+	thumbnailPath, _ := saveUploadedFileGCS(ctx, "thumbnail", config.ThumbnailPath())
 
 	err := c.Usecase.CreateContent(ctx, content, userId, contentPath, thumbnailPath)
 	if checkError(ctx, err) {
