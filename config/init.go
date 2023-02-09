@@ -1,21 +1,20 @@
 package config
 
 import (
+	"github.com/joho/godotenv"
 	"log"
 	"os"
-	"regexp"
-
-	"github.com/joho/godotenv"
 )
 
 const projectDirName = "peanut"
 
 func init() {
-	projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)
-	currentWorkDirectory, _ := os.Getwd()
-	rootPath := projectName.Find([]byte(currentWorkDirectory))
-
-	err := godotenv.Load(string(rootPath) + `/.env`)
+	//projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)
+	//currentWorkDirectory, _ := os.Getwd()
+	//rootPath := projectName.Find([]byte(currentWorkDirectory))
+	//fmt.Println(rootPath)
+	//err := godotenv.Load(string(rootPath) + `/.env`)
+	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}

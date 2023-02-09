@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    env_file:
+      - .env
+    ports:
+      - "8086:8080"
+
+    depends_on:
+      - db
+    command: air
+    volumes:
+      - .:/var/www
+    networks:
+      - fullstack
+  db:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5433:5432"
+    networks:
+      - fullstack
+volumes:
+  data:
+networks:
+  fullstack:
+    driver: bridge
