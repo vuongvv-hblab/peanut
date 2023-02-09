@@ -42,7 +42,7 @@ func main() {
 
 func dbConnect() *gorm.DB {
 	db, err := infra.PostgresOpen()
-	db.AutoMigrate(&domain.Content{})
+	db.AutoMigrate(&domain.Auth{}, &domain.Book{}, &domain.Content{})
 	if err != nil {
 		log.Fatal("[main] DB connect error: ", err)
 	}

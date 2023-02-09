@@ -1,0 +1,39 @@
+version: "3.3"
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+#    environment:
+#      DB_USERNAME: "root"
+#      DB_PASSWORD: "root"
+#      DB_DB: "mydb"
+#      DB_HOST: "db"
+#      DB_TABLE: "postgres"
+#      DB_PORT: "5432"
+    ports:
+      - "8086:8080"
+    depends_on:
+      - db
+    command: air ./cmd/main.go -b 0.0.0.0
+    volumes:
+      - ./:/var/www
+    networks:
+      - fullstack
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5433:5432"
+    networks:
+      - fullstack
+volumes:
+  data:
+networks:
+  fullstack:
+    driver: bridge
