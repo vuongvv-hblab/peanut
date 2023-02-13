@@ -4,28 +4,29 @@ import (
 	"fmt"
 	"log"
 	"peanut/config"
+	"peanut/domain"
 	"peanut/infra"
 	"peanut/pkg/i18n"
 
 	"gorm.io/gorm"
 )
 
-// @title           Swagger Example API
-// @version         1.0
-// @description     This is a sample server celler server.
-// @termsOfService  http://swagger.io/terms/
+//	@title			Swagger Example API
+//	@version		1.0
+//	@description	This is a sample server celler server.
+//	@termsOfService	http://swagger.io/terms/
 
-// @contact.name   API Support
-// @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
+//	@contact.name	API Support
+//	@contact.url	http://www.swagger.io/support
+//	@contact.email	support@swagger.io
 
-// @license.name  Apache 2.0
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:8080
-// @BasePath  /api/v1
-
-// @securityDefinitions.basic  BasicAuth
+// @host						localhost:8080
+// @securityDefinitions.apikey	Bearer
+// @in							header
+// @name						Authorization
 func main() {
 	fmt.Println("---- Hello world! ----")
 
@@ -41,6 +42,7 @@ func main() {
 
 func dbConnect() *gorm.DB {
 	db, err := infra.PostgresOpen()
+	db.AutoMigrate(&domain.Auth{}, &domain.Book{}, &domain.Content{})
 	if err != nil {
 		log.Fatal("[main] DB connect error: ", err)
 	}

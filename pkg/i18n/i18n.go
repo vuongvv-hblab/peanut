@@ -16,7 +16,7 @@ var uni *ut.UniversalTranslator
 
 func SetupI18n() {
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		// Default language order fisrt when init
+		// Default language order first when init
 		uni = ut.New(en.New(), vi.New(), ja.New())
 
 		trans, _ := uni.GetTranslator("vi")
