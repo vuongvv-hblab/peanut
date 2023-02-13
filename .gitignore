@@ -1,3 +1,8 @@
 .DS_Store
 
 tmp
+/.idea
+/public/content/*
+/public/thumbnail/*
+.env
+hale-music-375103-983eece25f5b.json

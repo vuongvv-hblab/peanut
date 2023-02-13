@@ -2,10 +2,11 @@ package infra
 
 import (
 	"net/http"
-	"time"
 
 	"peanut/config"
 	"peanut/controller"
+	"time"
+
 	"peanut/middleware"
 
 	"github.com/gin-contrib/cors"
@@ -51,6 +52,7 @@ func SetupServer(s *gorm.DB) Server {
 	}))
 
 	// Config route
+	r.POST("/login", controller.NewAuthController(s).Login)
 	v1 := r.Group("api/v1")
 	{
 		userCtrl := controller.NewUserController(s)
@@ -61,6 +63,21 @@ func SetupServer(s *gorm.DB) Server {
 			users.GET("/:id", userCtrl.GetUser)
 			// users.PATCH("/:id", userCtrl.UpdateUser)
 			// users.DELETE("/:id", userCtrl.DeleteUserByID)
+		}
+		bookCtrl := controller.NewBookController(s)
+		books := v1.Group("/books").Use(middleware.JWTAuthMiddleware())
+		{
+			books.GET("", bookCtrl.GetBooks)
+			books.POST("", bookCtrl.CreateBook)
+			books.GET("/:id", bookCtrl.GetBook)
+			books.PUT("/:id", bookCtrl.EditBook)
+			books.DELETE("/:id", bookCtrl.DeleteBook)
+		}
+		contentCtrl := controller.NewContentController(s)
+		contents := v1.Group("/contents").Use(middleware.JWTAuthMiddleware())
+		{
+			contents.GET("", contentCtrl.GetContents)
+			contents.POST("", contentCtrl.CreateContent)
 		}
 	}
 

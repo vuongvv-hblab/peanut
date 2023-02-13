@@ -17,12 +17,16 @@ import (
 
 var ctx context.Context
 var db *gorm.DB
+var bookRepo *mock.MockBookRepo
+var bookUc usecase.BookUsecase
 var userRepo *mock.MockUserRepo
 var userUc usecase.UserUsecase
+var contentRepo *mock.MockContentRepo
+var contentUc usecase.ContentUsecase
 
-func TestUsecase(t *testing.T) {
+func TestBooks(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Usecase Suite")
+	RunSpecs(t, "Books Usecase Suite")
 }
 
 var _ = BeforeSuite(func() {
@@ -38,6 +42,13 @@ var _ = BeforeSuite(func() {
 
 	ctrl := gomock.NewController(GinkgoT())
 	defer ctrl.Finish()
+
 	userRepo = mock.NewMockUserRepo(ctrl)
 	userUc = usecase.NewUserUsecase(userRepo)
+
+	bookRepo = mock.NewMockBookRepo(ctrl)
+	bookUc = usecase.NewBookUsecase(bookRepo)
+
+	contentRepo = mock.NewMockContentRepo(ctrl)
+	contentUc = usecase.NewContentUsecase(contentRepo)
 })
