@@ -21,9 +21,9 @@ jobs:
       with:
         go-version: 1.19
       run: |
-        touch .env
-        echo "${{ env.DEVELOP }}" >> .env
-        cat .env
+#        touch .env
+        echo "${{ secrets.ENV_FILE }}" > .env
+#        cat .env
     - name: Build
       run: go build -v ./...
 
