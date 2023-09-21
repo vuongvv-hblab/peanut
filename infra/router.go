@@ -1,6 +1,7 @@
 package infra
 
 import (
+	"fmt"
 	"net/http"
 
 	"peanut/config"
@@ -52,6 +53,10 @@ func SetupServer(s *gorm.DB) Server {
 	}))
 
 	// Config route
+	r.GET("", func(context *gin.Context) {
+		fmt.Println(123)
+		context.JSON(200, "abcd")
+	})
 	r.POST("/login", controller.NewAuthController(s).Login)
 	v1 := r.Group("api/v1")
 	{

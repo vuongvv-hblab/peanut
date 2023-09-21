@@ -29,6 +29,7 @@ func (c *UserController) GetUsers(ctx *gin.Context) {
 }
 
 // GetUser godoc
+//
 //	@Summary		Get user
 //	@Description	Get user
 //	@Tags			user
@@ -45,6 +46,7 @@ func (c *UserController) GetUser(ctx *gin.Context) {
 }
 
 // CreateUser godoc
+//
 //	@Summary		Create an user
 //	@Description	Create an user
 //	@Tags			user
@@ -61,7 +63,7 @@ func (c *UserController) CreateUser(ctx *gin.Context) {
 	if !bindJSON(ctx, &user) {
 		return
 	}
-
+	fmt.Println(1)
 	err := c.Usecase.CreateUser(ctx, user)
 	if checkError(ctx, err) {
 		return
